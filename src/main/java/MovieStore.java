@@ -6,19 +6,29 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 public class MovieStore {
-    LinkedList<Movie> movies = new LinkedList<Movie>();
+    List<Movie> movies = new LinkedList<Movie>();
 
     public List<Movie> findByPartialTitle(String partialTitle){
+        List<Movie> result = new LinkedList<Movie>();
         for (Movie movie : movies) {
-            if(movie.title().contains(partialTitle)){
-                return asList(movie);
+            if(movie.title().toUpperCase().contains(partialTitle.toUpperCase())){
+                result.add(movie);
             }
         }
-        return new LinkedList<Movie>();
+        return result;
     }
 
-    public void add(Movie movie) {
+    public void add(Movie movie){
         movies.add(movie);
     }
 
+    public List<Movie> findByDirector(String director) {
+        List<Movie> result = new LinkedList<Movie>();
+        for (Movie movie : movies) {
+            if(movie.director().equals(director)){
+                result.add(movie);
+            }
+        }
+        return result;
+    }
 }
