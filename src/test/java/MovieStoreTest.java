@@ -12,17 +12,18 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 
 public class MovieStoreTest {
 
+
     private final MovieStore movieStore = new MovieStore();
-    private final Movie harryPotter = new Movie("Harry Potter", "Rowling");
-    private final Movie starWars = new Movie("Star Wars","Shwimmer");
-    private final Movie starTrek = new Movie("STAR Trek", "Shwimmer");
-    private final Movie wanted = new Movie("Wanted", "Ed");
-    private final Movie lordOfRings = new Movie("The Lord Of Rings", "Tolkien");
-    private final Movie shawshank = new Movie("The Shawshank Redemption", "Bob");
-    private final Movie takeThat = new Movie("Take That", "Shwimmer");
+    private final Movie harryPotter = new Movie("Harry Potter", "Rowling", 2000);
+    private final Movie starWars = new Movie("Star Wars","Shwimmer", 1999);
+    private final Movie starTrek = new Movie("STAR Trek", "Shwimmer", 2002);
+    private final Movie wanted = new Movie("Wanted", "Ed", 2015);
+    private final Movie lordOfRings = new Movie("The Lord Of Rings", "Tolkien", 2020);
+    private final Movie shawshank = new Movie("The Shawshank Redemption", "Bob", 2001);
+    private final Movie takeThat = new Movie("Take That", "Shwimmer", 2010);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         movieStore.add(harryPotter);
         movieStore.add(starWars);
         movieStore.add(starTrek);
@@ -33,7 +34,7 @@ public class MovieStoreTest {
     }
 
     @Test
-    public void returnsNoResultsWhenNoTitlesPartiallyMatchSearch() throws Exception{
+    public void returnsNoResultsWhenNoTitlesPartiallyMatchSearch() {
         MovieStore movieStore = new MovieStore();
 
          List<Movie> results = movieStore.findByPartialTitle("abc");
@@ -43,7 +44,7 @@ public class MovieStoreTest {
 
 
     @Test
-    public void findAMoviesWhenTitlesArePartiallyMatchedCaseInsensitive() throws Exception{
+    public void findAMoviesWhenTitlesArePartiallyMatchedCaseInsensitive() {
 
         List<Movie> results = movieStore.findByPartialTitle("tar");
 
@@ -53,12 +54,24 @@ public class MovieStoreTest {
     }
 
     @Test
-    public void findMoviesWhenDirectorExactlyMatches() throws Exception{
+    public void findMoviesWhenDirectorExactlyMatches() {
 
         List<Movie> results = movieStore.findByDirector("Shwimmer");
 
         assertThat(results.size(),is(3));
         assertThat(results, containsInAnyOrder(starTrek, starWars,takeThat));
+
+    }
+
+
+
+    @Test
+    public void findsMoviesWhenReleaseYearIsBetweenTwoValues() {
+
+        List<Movie> results = movieStore.findByReleaseYear(1999 ,2002);
+
+        assertThat(results.size(),is(2));
+        assertThat(results, containsInAnyOrder(harryPotter, shawshank));
 
     }
 
